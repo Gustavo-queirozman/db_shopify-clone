@@ -1,0 +1,87 @@
+/* Lógico_2: */
+
+CREATE TABLE usuario (
+    idUsuario INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255),
+    idade INTEGER,
+    celular VARCHAR(15),
+    email VARCHAR(256),
+    fkPlano INTEGER
+);
+
+CREATE TABLE plano (
+    idPlano INTEGER PRIMARY KEY AUTO_INCREMENT,
+    plano VARCHAR(20),
+    preco DOUBLE
+);
+
+CREATE TABLE artista (
+    idArtista INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255),
+    email VARCHAR(256)
+);
+
+CREATE TABLE album (
+    idAlbum INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nomeAlbum VARCHAR(255),
+    fkArtistaPrincipal INTEGER
+);
+
+CREATE TABLE cancao (
+    idCancao INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255),
+    fkAlbum INTEGER
+);
+
+CREATE TABLE artistaAlbum (
+    idArtistaAlbum INTEGER PRIMARY KEY AUTO_INCREMENT,
+    fkArtista INTEGER,
+    fkAlbum INTEGER
+);
+
+CREATE TABLE usuario_segue (
+    idSeguidor INTEGER PRIMARY KEY AUTO_INCREMENT,
+    fkUsuario INTEGER,
+    fkArtista INTEGER
+);
+
+CREATE TABLE historico_reproducao (
+    idReproducao INTEGER PRIMARY KEY AUTO_INCREMENT,
+    fkUsuario INTEGER,
+    fkCancao INTEGER
+);
+ 
+ALTER TABLE cancao ADD CONSTRAINT FK_cancao_2
+    FOREIGN KEY (fkAlbum)
+    REFERENCES album (idAlbum)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE artistaAlbum ADD CONSTRAINT FK_artistaAlbum_1
+    FOREIGN KEY (fkArtista)
+    REFERENCES artista (idArtista)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE artistaAlbum ADD CONSTRAINT FK_artistaAlbum_2
+    FOREIGN KEY (fkAlbum)
+    REFERENCES album (idAlbum)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE usuario_segue ADD CONSTRAINT FK_usuario_segue_1
+    FOREIGN KEY (fkUsuario)
+    REFERENCES usuario (idUsuario)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE usuario_segue ADD CONSTRAINT FK_usuario_segue_2
+    FOREIGN KEY (fkArtista)
+    REFERENCES artista (idArtista)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE historico_reproducao ADD CONSTRAINT FK_historico_reproducao_1
+    FOREIGN KEY (fkUsuario)
+    REFERENCES usuario (idUsuario)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE historico_reproducao ADD CONSTRAINT FK_historico_reproducao_2
+    FOREIGN KEY (fkCancao)
+    REFERENCES cancao (idCancao)
+    ON DELETE RESTRICT;
